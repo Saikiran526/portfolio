@@ -42,6 +42,8 @@ dependencies:
   web: ^1.1.1
   firebase_core: ^4.7.0
   html: ^0.15.6
+  http: ^1.6.0
+  top_snackbar_flutter: ^3.3.0
 
 dev_dependencies:
   flutter_test:

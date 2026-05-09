@@ -10,6 +10,8 @@ import 'package:portfolio/presentation/helper/projects_carousel.dart';
 import 'package:portfolio/presentation/home/animations/skill_orbit_animation.dart';
 import 'package:portfolio/presentation/home/viewmodel/home_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -153,7 +155,9 @@ class HomeScreen extends StatelessWidget {
                                           const SizedBox(height: 32),
 
                                           //  Buttons
-                                          Row(
+                                          Wrap(
+                                            spacing: 5,
+                                            runSpacing: 5,
                                             children: [
 
                                               _modernButton(
@@ -299,11 +303,14 @@ class HomeScreen extends StatelessWidget {
 
                                           const SizedBox(height: 32),
 
-                                          Row(
+                                          //
+                                          Wrap(
+                                            spacing: 5,
+                                            runSpacing: 5,
                                             children: [
-                                              _aboutHighlightLight("2+", "Years Experience"),
+                                              _aboutHighlightLight("1+", "Years Experience"),
                                               const SizedBox(width: 24),
-                                              _aboutHighlightLight("10+", "Projects Built"),
+                                              _aboutHighlightLight("5+", "Projects Built"),
                                               const SizedBox(width: 24),
                                               _aboutHighlightLight("Clean", "Architecture Focus"),
                                             ],
@@ -555,7 +562,7 @@ class HomeScreen extends StatelessWidget {
                                           children: [
                                             _footerLeftSection(),
                                             const SizedBox(height: 60),
-                                            _footerRightSection(),
+                                            _footerRightSection(viewModel,context),
                                           ],
                                         )
                                             : Row(
@@ -563,7 +570,7 @@ class HomeScreen extends StatelessWidget {
                                           children: [
                                             Expanded(flex: 1, child: _footerLeftSection()),
                                             const SizedBox(width: 80),
-                                            Expanded(flex: 1, child: _footerRightSection()),
+                                            Expanded(flex: 1, child: _footerRightSection(viewModel,context)),
                                           ],
                                         ),
 
@@ -646,9 +653,9 @@ class HomeScreen extends StatelessWidget {
 
         const SizedBox(height: 30),
 
-        _contactInfo(Icons.email, "yourmail@example.com"),
+        _contactInfo(Icons.email, "saikiranlingampally26@gmal.com"),
         const SizedBox(height: 15),
-        _contactInfo(Icons.phone, "+91 9XXXXXXXXX"),
+        _contactInfo(Icons.phone, "+91 9515916989"),
       ],
     );
   }
@@ -669,7 +676,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _footerRightSection() {
+  Widget _footerRightSection(HomeViewmodel viewModel, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -685,13 +692,13 @@ class HomeScreen extends StatelessWidget {
 
         const SizedBox(height: 30),
 
-        _footerTextField("Your Name"),
+        _footerTextField("Your Name",viewModel.nameController),
         const SizedBox(height: 20),
 
-        _footerTextField("Your Email"),
+        _footerTextField("Your Email", viewModel.emailController),
         const SizedBox(height: 20),
 
-        _footerTextField("Your Message", maxLines: 4),
+        _footerTextField("Your Message", maxLines: 4, viewModel.messageController),
         const SizedBox(height: 30),
 
         SizedBox(
@@ -705,8 +712,26 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            onPressed: () {
-              // Later: integrate EmailJS / Firebase / backend API
+            onPressed: () async {
+
+              bool msgSentStatus = await viewModel.sendMessage();
+              if(msgSentStatus){
+                showTopSnackBar(
+                  Overlay.of(context),
+                  CustomSnackBar.success(
+                    message:
+                    "Message sent successfully",
+                  ),
+                );
+              } else{
+                showTopSnackBar(
+                  Overlay.of(context),
+                  CustomSnackBar.error(
+                    message:
+                    "Message not sent. Try again!",
+                  ),
+                );
+              }
             },
             child: Text(
               "Send Message",
@@ -720,9 +745,10 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _footerTextField(String hint, {int maxLines = 1}) {
+  Widget _footerTextField(String hint,TextEditingController controller, {int maxLines = 1}) {
     return TextField(
       maxLines: maxLines,
+      controller: controller,
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         hintText: hint,
@@ -1005,6 +1031,7 @@ class HomeScreen extends StatelessWidget {
 
                 Text(
                   description,
+                  maxLines: 1,
                   style: GoogleFonts.poppins(
                     fontSize: 13,
                     height: 1.4,
@@ -1059,7 +1086,7 @@ class HomeScreen extends StatelessWidget {
           Row(
             children: [
               Text(
-                "Analogue I Solutions",
+                "Analogue It Solutions",
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -1181,7 +1208,9 @@ class HomeScreen extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          Row(
+          Wrap(
+            spacing: 5,
+            runSpacing: 5,
             children: [
 
               // Company
@@ -1193,7 +1222,7 @@ class HomeScreen extends StatelessWidget {
                   color: const Color(0xFFfbd214).withOpacity(0.15),
                 ),
                 child: Text(
-                  "Analogue I Solutions",
+                  "Analogue It Solutions",
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,

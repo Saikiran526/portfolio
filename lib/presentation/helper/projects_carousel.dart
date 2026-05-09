@@ -11,7 +11,6 @@ class ProjectsCarousel extends StatefulWidget {
 }
 
 class _ProjectsCarouselState extends State<ProjectsCarousel> {
-
   final CarouselSliderController _carouselController =
   CarouselSliderController();
 
@@ -57,34 +56,52 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-
         final width = constraints.maxWidth;
+
+        final isMobile = width < 700;
+        final isTablet = width >= 700 && width < 1000;
+        final isDesktop = width >= 1000 && width < 1400;
+        final isLargeDesktop = width >= 1400;
 
         double viewportFraction;
         double aspectRatio;
 
-        if (width > 1400) {
-          viewportFraction = 0.60; // show side cards clearly
-          aspectRatio = 16 / 6;
-        } else if (width > 1000) {
+        if (isLargeDesktop) {
+          viewportFraction = 0.60;
+          aspectRatio = 16 / 6.2;
+        } else if (isDesktop) {
           viewportFraction = 0.70;
-          aspectRatio = 16 / 7;
-        } else if (width > 700) {
+          aspectRatio = 16 / 7.0;
+        } else if (isTablet) {
           viewportFraction = 0.85;
-          aspectRatio = 16 / 8;
+          aspectRatio = 16 / 8.8;
         } else {
-          viewportFraction = 0.95; // mobile full width
-          aspectRatio = 16 / 10;
+          viewportFraction = 0.95;
+          aspectRatio = 16 / 13.5; // taller on mobile so text fits better
         }
+
+        final titleSize = isMobile
+            ? 18.0
+            : isTablet
+            ? 22.0
+            : 26.0;
+
+        final descSize = isMobile
+            ? 11.5
+            : isTablet
+            ? 12.8
+            : 14.0;
+
+        final sectionTitleSize = isMobile ? 12.0 : 14.0;
+        final sectionHeadingSize = isMobile ? 26.0 : 40.0;
 
         return Column(
           children: [
-
-            // SECTION TITLE
             Text(
               "PROJECTS",
+              textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
-                fontSize: 14,
+                fontSize: sectionTitleSize,
                 letterSpacing: 3,
                 color: Colors.grey,
                 fontWeight: FontWeight.w600,
@@ -93,15 +110,15 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
             const SizedBox(height: 11),
             Text(
               "Featured Work & Case Studies",
+              textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
-                fontSize: 40,
+                fontSize: sectionHeadingSize,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFFc9a400),
               ),
             ),
             const SizedBox(height: 30),
 
-            // CAROUSEL
             CarouselSlider.builder(
               carouselController: _carouselController,
               itemCount: _projects.length,
@@ -112,8 +129,7 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
                 enlargeStrategy: CenterPageEnlargeStrategy.scale,
                 autoPlay: true,
                 autoPlayInterval: const Duration(seconds: 4),
-                autoPlayAnimationDuration:
-                const Duration(milliseconds: 800),
+                autoPlayAnimationDuration: const Duration(milliseconds: 800),
                 autoPlayCurve: Curves.easeInOut,
                 enableInfiniteScroll: true,
                 clipBehavior: Clip.none,
@@ -128,8 +144,12 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
                   duration: const Duration(milliseconds: 300),
                   opacity: _currentIndex == index ? 1 : 0.7,
                   child: _projectCard(
-                    _projects[index]["title"]!,
-                    _projects[index]["description"]!,
+                    title: _projects[index]["title"]!,
+                    description: _projects[index]["description"]!,
+                    isMobile: isMobile,
+                    isTablet: isTablet,
+                    titleFontSize: titleSize,
+                    descriptionFontSize: descSize,
                   ),
                 );
               },
@@ -137,7 +157,6 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
 
             const SizedBox(height: 20),
 
-            // SMOOTH DOT INDICATOR
             AnimatedSmoothIndicator(
               activeIndex: _currentIndex,
               count: _projects.length,
@@ -155,22 +174,50 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
     );
   }
 
-  Widget _projectCard(String title, String description) {
+  Widget _projectCard({
+    required String title,
+    required String description,
+    required bool isMobile,
+    required bool isTablet,
+    required double titleFontSize,
+    required double descriptionFontSize,
+  }) {
+    final horizontalPadding = isMobile
+        ? 18.0
+        : isTablet
+        ? 28.0
+        : 40.0;
+
+    final verticalPadding = isMobile
+        ? 22.0
+        : isTablet
+        ? 32.0
+        : 45.0;
+
+    final titleBottomSpacing = isMobile ? 14.0 : 28.0;
+    final dividerTopSpacing = isMobile ? 18.0 : 30.0;
+
+    final cardRadius = isMobile ? 24.0 : 32.0;
+    final stripWidth = isMobile ? 5.0 : 6.0;
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 600),
-      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      margin: EdgeInsets.symmetric(
+        horizontal: isMobile ? 8 : 12,
+        vertical: isMobile ? 8 : 12,
+      ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(cardRadius),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFfbd214).withOpacity(0.25),
-            blurRadius: 60,
-            offset: const Offset(0, 30),
+            color: const Color(0xFFfbd214).withOpacity(0.22),
+            blurRadius: isMobile ? 35 : 60,
+            offset: const Offset(0, 25),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(32),
+        borderRadius: BorderRadius.circular(cardRadius),
         child: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -184,14 +231,12 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
           ),
           child: Stack(
             children: [
-
-              // Accent Strip
               Positioned(
                 left: 0,
                 top: 0,
                 bottom: 0,
                 child: Container(
-                  width: 6,
+                  width: stripWidth,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -204,16 +249,18 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
                   ),
                 ),
               ),
-
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 40, vertical: 45),
+                padding: EdgeInsets.symmetric(
+                  horizontal: horizontalPadding,
+                  vertical: verticalPadding,
+                ),
                 child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-
-                      TweenAnimationBuilder(
+                      TweenAnimationBuilder<double>(
                         tween: Tween<double>(begin: 20, end: 0),
                         duration: const Duration(milliseconds: 600),
                         builder: (context, value, child) {
@@ -227,30 +274,29 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
                         },
                         child: Text(
                           title,
+                          maxLines: isMobile ? 3 : 2,
+                          overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
-                            fontSize: 26,
+                            fontSize: titleFontSize,
+                            height: 1.2,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
                           ),
                         ),
                       ),
-
-                      const SizedBox(height: 28),
-
+                      SizedBox(height: titleBottomSpacing),
                       Text(
                         description,
                         style: GoogleFonts.poppins(
-                          fontSize: 14,
-                          height: 1.8,
+                          fontSize: descriptionFontSize,
+                          height: isMobile ? 1.45 : 1.7,
                           color: Colors.grey.shade300,
                         ),
                       ),
-
-                      const SizedBox(height: 30),
-
+                      SizedBox(height: dividerTopSpacing),
                       Container(
                         height: 2,
-                        width: 80,
+                        width: isMobile ? 60 : 80,
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
