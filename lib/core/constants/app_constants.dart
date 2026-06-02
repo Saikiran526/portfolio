@@ -1,5 +1,5 @@
 class AppConstants {
-  static const nameText = "Saikiran L";
+  static const nameText = "Saikiran";
   static const homeText = "Home";
   static const experienceText = "Experience";
   static const projectsText = "Projects";

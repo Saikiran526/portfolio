@@ -52,19 +52,21 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: ChangeNotifierProvider(
-        create: (_) => HomeViewmodel(),
-        child: Consumer<HomeViewmodel>(
-          builder: (context, viewModel, _) => Stack(
-            children: [
-              _MainContent(viewModel: viewModel),
-              Positioned(
-                top: 10,
-                left: 0,
-                right: 0,
-                child: _FloatingNavbar(viewModel: viewModel),
-              ),
-            ],
+      body: SafeArea(
+        child: ChangeNotifierProvider(
+          create: (_) => HomeViewmodel(),
+          child: Consumer<HomeViewmodel>(
+            builder: (context, viewModel, _) => Stack(
+              children: [
+                _MainContent(viewModel: viewModel),
+                Positioned(
+                  top: 10,
+                  left: 0,
+                  right: 0,
+                  child: _FloatingNavbar(viewModel: viewModel),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -181,14 +183,15 @@ class _HeroMobile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
         Image.asset(
           AssetPaths.blackBackgroundImage,
           width: double.infinity,
           height: context.screenHeight * 0.42,
-          fit: BoxFit.cover,
+          fit: BoxFit.scaleDown,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 0),
           child: _HeroText(viewModel: viewModel),
         ),
       ],
@@ -265,7 +268,7 @@ class _HeroText extends StatelessWidget {
             _ModernButton(
               text: "Let's Connect",
               isPrimary: false,
-              onTap: () {},
+              onTap : viewModel.scrollToContactSection,
             ).animate(delay: 1400.ms).fadeIn(duration: 800.ms).slideY(begin: 0.3),
           ],
         ),
@@ -418,7 +421,7 @@ class _AboutContent extends StatelessWidget {
           runSpacing: 12,
           children: const [
             _HighlightChip(value: "1+", label: "Years Experience"),
-            _HighlightChip(value: "5+", label: "Projects Built"),
+            _HighlightChip(value: "5", label: "Projects Built"),
             _HighlightChip(value: "Clean", label: "Architecture Focus"),
           ],
         ).animate(delay: 600.ms).fadeIn(duration: 900.ms).slideY(begin: 0.2),
@@ -444,16 +447,27 @@ class _SkillsSection extends StatelessWidget {
     _SkillItem("Tools & Platforms", "Postman • Android Studio • VS Code", Icons.build),
   ];
 
+
+
   @override
   Widget build(BuildContext context) {
+
     final isMobile = context.isMobile;
+    final width = MediaQuery.sizeOf(context).width;
+    final crossAxisCount = width < 600
+        ? 1
+        : width < 900
+        ? 2
+        : width < 1300
+        ? 3
+        : 4;
 
     return Container(
       key: sectionKey,
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         vertical: 60,
-        horizontal: isMobile ? 20 : 60,
+        horizontal: isMobile ? 20 : context.isTablet ? 32 : 60,
       ),
       child: Column(
         children: [
@@ -480,12 +494,20 @@ class _SkillsSection extends StatelessWidget {
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: isMobile ? 360 : 320,
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 20,
-              childAspectRatio: isMobile ? 2.2 : 1.6,
-            ),
+
+
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: crossAxisCount,
+      mainAxisSpacing: 20,
+      crossAxisSpacing: 20,
+      childAspectRatio: width < 600
+          ? 3.2
+          : width < 900
+          ? 2.8        // tablet: wider cards, needs less height
+          : width < 1300
+          ? 2.4        // small desktop
+          : 2.8,
+    ),
             itemCount: _skills.length,
             itemBuilder: (_, i) => _SkillCard(skill: _skills[i]),
           ),
@@ -593,7 +615,10 @@ class _FooterSection extends StatelessWidget {
             children: [
               const Expanded(child: _FooterLeft()),
               const SizedBox(width: 80),
-              Expanded(child: _FooterRight(viewModel: viewModel)),
+              Expanded(
+                key: viewModel.contactSectionKey,
+                  child: _FooterRight(viewModel: viewModel)
+              ),
             ],
           ),
           const SizedBox(height: 80),
@@ -655,58 +680,115 @@ class _FooterRight extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Let's Connect",
-          style: GoogleFonts.poppins(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
+    return Form(
+      key: viewModel.contactFormKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Let's Connect",
+            style: GoogleFonts.poppins(
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
           ),
-        ),
-        const SizedBox(height: 30),
-        _FooterTextField(hint: "Your Name", controller: viewModel.nameController),
-        const SizedBox(height: 20),
-        _FooterTextField(hint: "Your Email", controller: viewModel.emailController),
-        const SizedBox(height: 20),
-        _FooterTextField(
-          hint: "Your Message",
-          controller: viewModel.messageController,
-          maxLines: 4,
-        ),
-        const SizedBox(height: 30),
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              backgroundColor: _Colors.primary,
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
+          const SizedBox(height: 30),
+          _FooterTextField(
+            hint: "Your Name",
+            controller: viewModel.nameController,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return "I'd love to know your name before we connect.";
+              }
+              if (value.trim().length < 2) {
+                return "Enter a valid name.I'd love to know your name before we connect.";
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 20),
+          _FooterTextField(hint: "Your Email",
+            controller: viewModel.emailController,
+            validator: (value) {
+              final email = value?.trim() ?? '';
+              if (email.isEmpty) {
+                return "Please provide your email so I can follow up on your message.";
+              }
+
+              final emailRegex = RegExp(
+                r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@"
+                r"[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$",
+              );
+
+              if (!emailRegex.hasMatch(email)) {
+                return "Enter a valid email";
+              }
+
+              return null;
+            },
+          ),
+          const SizedBox(height: 20),
+          _FooterTextField(
+            hint: "Your Message",
+            controller: viewModel.messageController,
+            maxLines: 4,
+            validator: (value) {
+              if (value == null || value.trim().isEmpty) {
+                return "Please let me know why you'd like to connect.";
+              }
+              if (value.trim().length < 10) {
+                return "Message should be at least 10 characters";
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 30),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                backgroundColor: _Colors.primary,
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+              ),
+              onPressed: () async {
+
+                final formState = viewModel.contactFormKey.currentState;
+                if (formState == null) return;
+                if (!formState.validate()) {
+                  return; // stop here if any field is invalid
+                }
+
+
+                final sent = await viewModel.sendMessage();
+                if (!context.mounted) return;
+                showTopSnackBar(
+                  Overlay.of(context),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: SizedBox(
+                      width: 300,
+                      child: sent
+                          ? const CustomSnackBar.success(
+                          message: "Message sent successfully...!")
+                          : const CustomSnackBar.error(
+                          message: "Message not sent. Try again!"),
+                    ),
+                  )
+                );
+              },
+              child: Text(
+                "Send Message",
+                style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
               ),
             ),
-            onPressed: () async {
-              final sent = await viewModel.sendMessage();
-              if (!context.mounted) return;
-              showTopSnackBar(
-                Overlay.of(context),
-                sent
-                    ? const CustomSnackBar.success(
-                    message: "Message sent successfully")
-                    : const CustomSnackBar.error(
-                    message: "Message not sent. Try again!"),
-              );
-            },
-            child: Text(
-              "Send Message",
-              style: GoogleFonts.poppins(fontWeight: FontWeight.w600),
-            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -961,7 +1043,7 @@ class _SkillCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   skill.description,
-                  maxLines: 2,
+                  maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.poppins(
                     fontSize: 12,
@@ -1025,13 +1107,15 @@ class _ExperienceCard extends StatelessWidget {
   const _ExperienceCard();
 
   static const _points = [
-    "Developed and maintained cross-platform mobile application features using Flutter and Dart, following clean architecture practices.",
-    "Implemented Provider-based state management and applied MVVM architecture for scalable modular codebases.",
-    "Integrated RESTful APIs using Dio with multipart data handling and secure authentication flows.",
-    "Improved application performance through efficient local data caching strategies.",
-    "Built interactive and data-driven UI components for intuitive user experiences.",
-    "Integrated Firebase Authentication and Crashlytics for secure access and monitoring.",
-    "Collaborated closely with designers and backend teams to deliver optimized production-ready features.",
+    "Developed and maintained cross-platform mobile applications for Android and iOS using Flutter and Dart, following clean and maintainable coding practices.",
+    "Applied MVVM and MVC architectural patterns to build scalable, modular, and production-ready applications.",
+    "Implemented state management solutions using Provider and GetX to handle complex application workflows efficiently.",
+    "Integrated RESTful APIs using Dio, including multipart file uploads, secure authentication flows, and backend-driven features.",
+    "Improved application performance through local caching strategies using Sqflite, SharedPreferences, and GetStorage.",
+    "Built reusable UI components, responsive layouts, and centralized navigation systems to ensure consistency across multiple applications.",
+    "Integrated Google Maps, property search modules, onboarding experiences, filtering systems, and interactive data visualizations.",
+    "Implemented Firebase services including Authentication, Cloud Messaging (FCM), and Crashlytics for secure access, notifications, and application monitoring.",
+    "Collaborated closely with designers, backend engineers, and cross-functional teams to deliver optimized, production-ready features and seamless user experiences.",
   ];
 
   @override
@@ -1166,32 +1250,75 @@ class _FooterTextField extends StatelessWidget {
     required this.hint,
     required this.controller,
     this.maxLines = 1,
+    this.validator,
+    super.key,
   });
 
   final String hint;
   final TextEditingController controller;
   final int maxLines;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      maxLines: maxLines,
+    return TextFormField(
       controller: controller,
-      style: const TextStyle(color: Colors.white),
+      maxLines: maxLines,
+      validator: validator,
+      style: GoogleFonts.poppins(
+        color: Colors.white,
+      ),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: Colors.grey[500]),
+        hintStyle: GoogleFonts.poppins(
+          color: Colors.white54,
+        ),
         filled: true,
-        fillColor: _Colors.inputBg,
-        contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20, vertical: 18),
+        fillColor: Colors.white.withOpacity(0.08),
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide.none,
         ),
+
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
+        ),
+
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: _Colors.primary, width: 1.2),
+          borderSide: BorderSide(
+            color: _Colors.primary, // your primary color
+            width: 1.5,
+          ),
+        ),
+
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: _Colors.primary, // your primary color
+            width: 1.5,
+          ),
+        ),
+
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide(
+            color: _Colors.primary, // your primary color
+            width: 2,
+          ),
+        ),
+
+        errorStyle: GoogleFonts.poppins(
+          color: _Colors.primary,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
+
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
         ),
       ),
     );

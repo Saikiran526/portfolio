@@ -25,6 +25,9 @@ class HomeViewmodel extends ChangeNotifier {
   final GlobalKey skillsKey = GlobalKey();
   final GlobalKey experienceKey = GlobalKey();
   final GlobalKey projectsKey = GlobalKey();
+  final GlobalKey contactSectionKey = GlobalKey();
+  final GlobalKey<FormState> contactFormKey = GlobalKey<FormState>();
+
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -41,6 +44,17 @@ class HomeViewmodel extends ChangeNotifier {
     _isFloatingNavbarVisible = true;
     _scrollToSection(value);
     notifyListeners();
+  }
+  void scrollToContactSection() {
+    final context = contactSectionKey.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+        alignment: 0.08,
+      );
+    }
   }
 
   set setHoverMenuItem(String value) {

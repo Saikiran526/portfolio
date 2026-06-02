@@ -18,37 +18,69 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
 
   final List<Map<String, String>> _projects = [
     {
-      "title": "TGNPDCL Employee App – Dashboard Module",
+      "title": "Gazam – Real Estate Application",
       "description":
-      "Enterprise mobile dashboard providing real-time operational insights.\n\n"
+      "Cross-platform real estate application enabling users to explore, search, and purchase properties based on city, locality, and property type.\n\n"
+          "Tech Stack: Flutter, Dart, GetX, GetStorage, SharedPreferences, Google Maps, Firebase Cloud Messaging (FCM)\n"
+          "Architecture: MVC\n\n"
+          "• Developed and maintained cross-platform features for Android and iOS platforms\n"
+          "• Managed application state using GetX\n"
+          "• Implemented local data persistence using GetStorage and SharedPreferences\n"
+          "• Integrated Google Maps for location-based property discovery\n"
+          "• Developed property listing, search, and locality-based filtering features\n"
+          "• Built interactive app tour onboarding for first-time users\n"
+          "• Integrated Firebase Cloud Messaging (FCM) for push notifications\n"
+          "• Collaborated with backend, web, and admin teams for seamless integrations",
+    },
+    {
+      "title": "TGNPDCL Employee Dashboard System",
+      "description":
+      "Enterprise mobile dashboard module providing real-time operational insights to employees.\n\n"
           "Tech Stack: Flutter, Dart, Provider, Dio, REST APIs, Sqflite, fl_chart\n"
-          "Architecture: Clean Architecture, MVVM\n\n"
-          "• Developed data-driven dashboard screens\n"
-          "• Integrated REST APIs using Dio\n"
-          "• Implemented Sqflite caching\n"
-          "• Built interactive charts\n"
-          "• Optimized performance",
+          "Architecture: MVVM\n\n"
+          "• Developed data-driven dashboard screens and reusable Flutter UI components\n"
+          "• Integrated RESTful APIs using Dio with Provider state management\n"
+          "• Optimized performance using Sqflite-based local data caching\n"
+          "• Designed interactive line, pie, and bar charts using fl_chart\n"
+          "• Handled dynamic data updates efficiently\n"
+          "• Improved screen load times and overall application performance",
     },
     {
       "title": "Tailors Town – Tailor Application",
       "description":
-      "Tailor-focused workflow management application.\n\n"
-          "Tech Stack: Flutter, Provider, Firebase Crashlytics, REST APIs, Lottie\n"
-          "Architecture: Clean Architecture, MVVM\n\n"
-          "• Built application from scratch\n"
-          "• Centralized navigation\n"
-          "• Multipart image uploads\n"
-          "• Provider-based architecture\n"
-          "• Crash monitoring integration",
+      "Tailor-focused mobile application for managing orders, customers, and tailoring workflows.\n\n"
+          "Tech Stack: Flutter, Dart, Provider, Firebase Crashlytics, REST APIs, Lottie\n"
+          "Architecture: MVVM\n\n"
+          "• Developed the application from scratch and owned the complete workflow\n"
+          "• Designed centralized navigation using named routes\n"
+          "• Integrated REST APIs including multipart image uploads\n"
+          "• Managed application state using Provider\n"
+          "• Integrated Lottie animations for improved user experience\n"
+          "• Implemented Firebase Crashlytics for crash monitoring and stability",
     },
     {
-      "title": "Chaarvi Grow – Plant Disease Detection",
+      "title": "Sceneary – Cinema Industry Application",
       "description":
-      "AI-powered plant disease detection application.\n\n"
-          "Tech Stack: Flutter, Firebase Auth, Dio, REST APIs\n\n"
-          "• End-to-end authentication flow\n"
-          "• Image capture & upload\n"
-          "• Disease prediction & prevention guidance",
+      "Cross-platform mobile application developed for the cinema industry with responsive UI and centralized application flow management.\n\n"
+          "Tech Stack: Flutter, Dart, Provider, SharedPreferences\n"
+          "Architecture: MVVM\n\n"
+          "• Developed responsive UI screens for Android and iOS platforms\n"
+          "• Utilized Provider-based state management within MVVM architecture\n"
+          "• Developed centralized navigation and routing flows\n"
+          "• Implemented SharedPreferences for local storage and session persistence\n"
+          "• Collaborated with team members to ensure smooth feature integration",
+    },
+    {
+      "title": "Chaarvi Grow – Plant Disease Detection Application",
+      "description":
+      "Mobile application that detects plant diseases using image analysis through backend services.\n\n"
+          "Tech Stack: Flutter, Dart, Firebase Authentication, Dio, REST APIs\n"
+          "Architecture: MVVM\n\n"
+          "• Developed end-to-end authentication flow\n"
+          "• Integrated image capture and upload functionality\n"
+          "• Displayed disease prediction, severity levels, and prevention guidance\n"
+          "• Connected backend services using REST APIs\n"
+          "• Built a smooth and user-friendly disease detection workflow",
     },
   ];
 
