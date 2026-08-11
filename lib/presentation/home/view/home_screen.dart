@@ -420,7 +420,7 @@ class _AboutContent extends StatelessWidget {
           spacing: 12,
           runSpacing: 12,
           children: const [
-            _HighlightChip(value: "1+", label: "Years Experience"),
+            _HighlightChip(value: "1.5", label: "Years Experience"),
             _HighlightChip(value: "5", label: "Projects Built"),
             _HighlightChip(value: "Clean", label: "Architecture Focus"),
           ],
@@ -437,14 +437,76 @@ class _SkillsSection extends StatelessWidget {
   final GlobalKey sectionKey;
 
   static const _skills = [
-    _SkillItem("Programming Languages", "Dart • Java • JavaScript • ReactJS • HTML • CSS", Icons.code),
-    _SkillItem("Frameworks & SDKs", "Flutter", Icons.phone_android),
-    _SkillItem("State Management", "Provider", Icons.sync_alt),
-    _SkillItem("Architecture", "MVVM", Icons.architecture),
-    _SkillItem("API Integration", "RESTful APIs • JSON • Dio", Icons.cloud_done),
-    _SkillItem("Databases & Storage", "SQLite (Sqflite) • Firebase", Icons.storage),
-    _SkillItem("Version Control", "Git", Icons.merge_type),
-    _SkillItem("Tools & Platforms", "Postman • Android Studio • VS Code", Icons.build),
+    _SkillItem(
+      "Programming Languages",
+      "Dart, Java",
+      Icons.code,
+    ),
+    _SkillItem(
+      "Frameworks & SDKs",
+      "Flutter",
+      Icons.phone_android,
+    ),
+    _SkillItem(
+      "State Management",
+      "Provider, BLoC, GetX",
+      Icons.sync_alt,
+    ),
+    _SkillItem(
+      "Architecture",
+      "MVVM, Clean Architecture, MVC",
+      Icons.architecture,
+    ),
+    _SkillItem(
+      "API Integration",
+      "RESTful APIs, JSON, Dio, Interceptors, Multipart Requests, Token-based Authentication",
+      Icons.cloud_done,
+    ),
+    _SkillItem(
+      "Firebase",
+      "Firebase Authentication, Firebase Cloud Messaging (Push Notifications), Firebase Crashlytics",
+      Icons.local_fire_department,
+    ),
+    _SkillItem(
+      "Push Notifications",
+      "Foreground, Background & Terminated-state Notification Handling, Notification-based Navigation/Deep Linking",
+      Icons.notifications_active,
+    ),
+    _SkillItem(
+      "Databases & Local Storage",
+      "SQLite (Sqflite), SharedPreferences, GetStorage",
+      Icons.storage,
+    ),
+    _SkillItem(
+      "Navigation",
+      "GoRouter, Named Routes",
+      Icons.navigation,
+    ),
+    _SkillItem(
+      "Maps & Location",
+      "Google Maps, Google Geocoding API, OpenStreetMap",
+      Icons.location_on,
+    ),
+    _SkillItem(
+      "Data Visualization",
+      "fl_chart (Line, Bar, Pie Charts)",
+      Icons.bar_chart,
+    ),
+    _SkillItem(
+      "UI & Animation",
+      "Responsive UI, Reusable Components, Lottie",
+      Icons.animation,
+    ),
+    _SkillItem(
+      "Version Control",
+      "Git",
+      Icons.merge_type,
+    ),
+    _SkillItem(
+      "Tools & Platforms",
+      "Postman, Android Studio, VS Code",
+      Icons.build,
+    ),
   ];
 
 
@@ -1107,15 +1169,17 @@ class _ExperienceCard extends StatelessWidget {
   const _ExperienceCard();
 
   static const _points = [
-    "Developed and maintained cross-platform mobile applications for Android and iOS using Flutter and Dart, following clean and maintainable coding practices.",
-    "Applied MVVM and MVC architectural patterns to build scalable, modular, and production-ready applications.",
-    "Implemented state management solutions using Provider and GetX to handle complex application workflows efficiently.",
-    "Integrated RESTful APIs using Dio, including multipart file uploads, secure authentication flows, and backend-driven features.",
-    "Improved application performance through local caching strategies using Sqflite, SharedPreferences, and GetStorage.",
-    "Built reusable UI components, responsive layouts, and centralized navigation systems to ensure consistency across multiple applications.",
-    "Integrated Google Maps, property search modules, onboarding experiences, filtering systems, and interactive data visualizations.",
-    "Implemented Firebase services including Authentication, Cloud Messaging (FCM), and Crashlytics for secure access, notifications, and application monitoring.",
-    "Collaborated closely with designers, backend engineers, and cross-functional teams to deliver optimized, production-ready features and seamless user experiences.",
+    "Developed and maintained cross-platform mobile applications using Flutter and Dart, implementing reusable UI components and modular features for production environments.",
+    "Worked with Provider, BLoC, and GetX state management patterns across different application codebases based on project requirements.",
+    "Applied MVVM, Clean Architecture, and MVC patterns to build scalable, modular, and maintainable Flutter applications.",
+    "Integrated RESTful APIs using Dio with interceptors, token-based authentication, multipart requests, and structured backend data handling.",
+    "Implemented Firebase Cloud Messaging push notifications, handling foreground, background, and terminated-state notification delivery, along with notification-based in-app navigation and deep linking.",
+    "Implemented local data persistence and caching using Sqflite, SharedPreferences, and GetStorage to improve application responsiveness and reduce redundant network requests.",
+    "Integrated Firebase Authentication and Firebase Crashlytics to implement secure authentication flows and monitor production application stability.",
+    "Developed map-based features using Google Maps, Google Geocoding API, and OpenStreetMap for location-based application workflows.",
+    "Implemented structured navigation using GoRouter and named routes to maintain scalable and predictable application navigation flows.",
+    "Optimized application performance, handled dynamic data updates, and developed responsive interfaces for a consistent user experience across mobile devices.",
+    "Collaborated with backend developers and designers to translate business requirements into production-ready mobile features and resolve integration issues.",
   ];
 
   @override
