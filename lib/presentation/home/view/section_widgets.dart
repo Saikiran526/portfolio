@@ -317,24 +317,51 @@ class _BulletPoint extends StatelessWidget {
 }
 
 class _ContactRow extends StatelessWidget {
-  const _ContactRow({required this.icon, required this.text});
+  const _ContactRow({
+    required this.icon,
+    required this.text,
+    required this.tooltip,
+    required this.onTap,
+  });
+
   final IconData icon;
   final String text;
+  final String tooltip;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, size: 18, color: PortfolioColors.primary),
-        const SizedBox(width: 12),
-        Flexible(
-          child: Text(
-            text,
-            style: GoogleFonts.poppins(
-                fontSize: 13, color: Colors.grey[300]),
+    return Semantics(
+      button: true,
+      label: tooltip,
+      child: Tooltip(
+        message: tooltip,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(icon, size: 18, color: PortfolioColors.primary),
+                const SizedBox(width: 12),
+                Flexible(
+                  child: Text(
+                    text,
+                    style: GoogleFonts.poppins(
+                      fontSize: 13,
+                      color: Colors.grey[300],
+                      decoration: TextDecoration.underline,
+                      decorationColor: Colors.grey[600],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

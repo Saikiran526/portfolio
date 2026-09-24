@@ -19,6 +19,7 @@ void main() {
     await tester.tap(find.byTooltip('Next project'));
     await tester.pumpAndSettle();
     expect(find.text('2 / 5'), findsOneWidget);
+    expect(find.text('Mar 2026 – Sep 2026'), findsWidgets);
     expect(find.text('App Store'), findsWidgets);
     expect(find.text('Google Play'), findsWidgets);
     await tester.tap(find.text('Read case study').at(1));
@@ -51,6 +52,8 @@ void main() {
       final error = tester.takeException();
       expect(error, isNull);
       expect(find.text('Saikiran'), findsWidgets);
+      expect(find.text('GitHub'), findsOneWidget);
+      expect(find.text('LinkedIn'), findsOneWidget);
       await tester.pump(const Duration(seconds: 3));
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump(const Duration(seconds: 2));

@@ -25,6 +25,7 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
   final List<Map<String, String>> _projects = [
     {
       "title": "Annadatha – Agricultural Services Mobile Application",
+      "date": "Jul 2026 – Present",
       "description":
       "Mobile application focused on providing digital services for farmers, including agricultural product purchasing and equipment rental workflows.\n\n"
           "Tech Stack: Flutter, Dart, BLoC, Dio, GoRouter, OpenStreetMap\n"
@@ -38,6 +39,7 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
     },
     {
       "title": "Gazam – Real Estate Mobile Application",
+      "date": "Mar 2026 – Sep 2026",
       "appStoreUrl": "https://apps.apple.com/in/app/gazam-in/id6747278647",
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.gazam.inapp",
       "description":
@@ -101,7 +103,7 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
       return Container(
         width: double.infinity,
         color: const Color(0xFF111111),
-        padding: EdgeInsets.symmetric(vertical: compact ? 64 : 100),
+        padding: EdgeInsets.symmetric(vertical: compact ? 50 : 100),
         child: Column(children: [
           Text('SELECTED WORK', style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontWeight: FontWeight.w700, letterSpacing: 3, fontSize: 12)),
           const SizedBox(height: 10),
@@ -116,7 +118,7 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
             carouselController: _carouselController,
             itemCount: _projects.length,
             options: CarouselOptions(
-              height: compact ? 420 : 420,
+              height: compact ? 448 : 420,
               viewportFraction: viewportFraction,
               enlargeCenterPage: !reducedMotion,
               enlargeStrategy: CenterPageEnlargeStrategy.scale,
@@ -138,7 +140,7 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
                 child: Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                  padding: EdgeInsets.all(compact ? 22 : 30),
+                  padding: EdgeInsets.all(compact ? 18 : 30),
                   decoration: BoxDecoration(
                     color: const Color(0xFF222225),
                     borderRadius: BorderRadius.circular(24),
@@ -146,8 +148,12 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
                   ),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Text('${(index + 1).toString().padLeft(2, '0')} / ${_projects.length.toString().padLeft(2, '0')}', style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontWeight: FontWeight.w700, letterSpacing: 2)),
-                    const SizedBox(height: 18),
+                    SizedBox(height: compact ? 14 : 18),
                     Text(project['title']!, maxLines: 3, overflow: TextOverflow.ellipsis, style: GoogleFonts.poppins(color: Colors.white, fontSize: compact ? 20 : 26, height: 1.2, fontWeight: FontWeight.w700)),
+                    if (project['date'] != null) ...[
+                      const SizedBox(height: 6),
+                      Text(project['date']!, style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontSize: 13, fontWeight: FontWeight.w600)),
+                    ],
                     const SizedBox(height: 14),
                     Expanded(child: Text(summary, maxLines: compact ? 5 : 4, overflow: TextOverflow.ellipsis, style: GoogleFonts.poppins(color: Colors.white70, fontSize: 14, height: 1.6))),
                     if (project['appStoreUrl'] != null) ...[
@@ -216,6 +222,10 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Align(alignment: Alignment.centerRight, child: IconButton(tooltip: 'Close case study', onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close, color: Colors.white))),
               Text(project['title']!, style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontSize: 24, fontWeight: FontWeight.w700)),
+              if (project['date'] != null) ...[
+                const SizedBox(height: 8),
+                Text(project['date']!, style: GoogleFonts.poppins(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.w600)),
+              ],
               const SizedBox(height: 20),
               Expanded(child: SingleChildScrollView(child: SelectableText(project['description']!, style: GoogleFonts.poppins(color: Colors.white, height: 1.7, fontSize: 15)))),
               if (project['appStoreUrl'] != null) _storeLinks(project),

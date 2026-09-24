@@ -11,6 +11,10 @@ class AppConstants {
   static const downloadCVText='Download CV';
   static const professionalExperienceText='Professional Experience';
   static const fileId = '1Fm4RxQeqvHwUH4HnMeOXcDSYhQoCvGzT';
+  static const email = 'saikiranlingampally26@gmail.com';
+  static const phone = '+91 9515916989';
+  static const githubUrl = 'https://github.com/Saikiran526';
+  static const linkedInUrl = 'https://www.linkedin.com/in/saikiran-l-3951a5228/';
 //https://drive.google.com/file/d/1Fm4RxQeqvHwUH4HnMeOXcDSYhQoCvGzT/view?usp=drive_link
 //'1hLhQsAW4f7ZG_VbuFwtpBqCOgpg9Bz_h';
   // 1sGGAFo_IE5joYtGieUGMdTZb4bvmYK9K  https://drive.google.com/file/d/1fwttP5FyHkPCwyvHHn6YzA7iLkKxW60l/view?usp=drive_link

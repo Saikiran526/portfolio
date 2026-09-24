@@ -6,6 +6,9 @@ import 'package:portfolio/core/constants/app_constants.dart';
 import 'package:portfolio/core/constants/asset_paths.dart';
 import 'package:portfolio/presentation/helper/app_widgets.dart';
 import 'package:portfolio/presentation/helper/projects_carousel.dart';
+import 'package:portfolio/presentation/helper/project_link_stub.dart'
+    if (dart.library.js_interop) 'package:portfolio/presentation/helper/project_link_web.dart'
+    as external_links;
 import 'package:portfolio/presentation/home/animations/skill_orbit_animation.dart';
 import 'package:portfolio/presentation/home/viewmodel/home_viewmodel.dart';
 import 'layout.dart';
@@ -72,8 +75,8 @@ class _MainContent extends StatelessWidget {
             // Orbit animation — desktop/tablet only, positioned absolutely
             if (context.isDesktop)
               Positioned(
-                right: -50,
-                top: -60,
+                right: -105,
+                top: -105,
                 child: ValueListenableBuilder<bool>(
                   valueListenable: viewModel.isHeroVisible,
                   builder: (context, visible, _) => TickerMode(

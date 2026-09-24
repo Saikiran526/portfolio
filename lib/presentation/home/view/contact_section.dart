@@ -87,10 +87,62 @@ class _FooterLeft extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
-        _ContactRow(icon: Icons.email, text: "saikiranlingampally26@gmail.com"),
+        _ContactRow(
+          icon: Icons.email_outlined,
+          text: AppConstants.email,
+          tooltip: "Email Saikiran",
+          onTap: () => external_links.openProjectLink('mailto:${AppConstants.email}'),
+        ),
         const SizedBox(height: 15),
-        _ContactRow(icon: Icons.phone, text: "+91 9515916989"),
+        _ContactRow(
+          icon: Icons.phone_outlined,
+          text: AppConstants.phone,
+          tooltip: "Call Saikiran",
+          onTap: () => external_links.openProjectLink('tel:+919515916989'),
+        ),
+        const SizedBox(height: 22),
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          children: [
+            _SocialButton(
+              icon: Icons.code,
+              label: "GitHub",
+              onTap: () => external_links.openProjectLink(AppConstants.githubUrl),
+            ),
+            _SocialButton(
+              icon: Icons.work_outline,
+              label: "LinkedIn",
+              onTap: () => external_links.openProjectLink(AppConstants.linkedInUrl),
+            ),
+          ],
+        ),
       ],
+    );
+  }
+}
+
+
+class _SocialButton extends StatelessWidget {
+  const _SocialButton({required this.icon, required this.label, required this.onTap});
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: onTap,
+      icon: Icon(icon, size: 18),
+      label: Text(label),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: PortfolioColors.primary,
+        side: BorderSide(color: PortfolioColors.primary.withValues(alpha: 0.55)),
+        minimumSize: const Size(0, 48),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 13),
+        textStyle: GoogleFonts.poppins(fontWeight: FontWeight.w600),
+      ),
     );
   }
 }
