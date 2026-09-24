@@ -160,7 +160,7 @@ class _OrbitRing extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
-            color: Colors.white.withOpacity(0.06),
+            color: Colors.white.withValues(alpha: 0.06),
             width: 1.2,
           ),
         ),
@@ -193,12 +193,12 @@ class _OrbitIcon extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: primaryColor.withOpacity(0.25),
+              color: primaryColor.withValues(alpha: 0.25),
               blurRadius: 12,
               spreadRadius: 1,
             ),
             BoxShadow(
-              color: Colors.black.withOpacity(0.15),
+              color: Colors.black.withValues(alpha: 0.15),
               blurRadius: 8,
             ),
           ],

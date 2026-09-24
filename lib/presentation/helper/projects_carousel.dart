@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'project_link_stub.dart' if (dart.library.js_interop) 'project_link_web.dart' as project_links;
 
 class ProjectsCarousel extends StatefulWidget {
   const ProjectsCarousel({super.key});
@@ -15,6 +15,12 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
   CarouselSliderController();
 
   int _currentIndex = 0;
+  bool _pauseAutoPlay = false;
+
+  void _setAutoPlayPaused(bool paused) {
+    if (_pauseAutoPlay == paused) return;
+    setState(() => _pauseAutoPlay = paused);
+  }
 
   final List<Map<String, String>> _projects = [
     {
@@ -32,6 +38,8 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
     },
     {
       "title": "Gazam – Real Estate Mobile Application",
+      "appStoreUrl": "https://apps.apple.com/in/app/gazam-in/id6747278647",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.gazam.inapp",
       "description":
       "Real-estate mobile application focused on property discovery, search, location-based exploration, and personalized property experiences.\n\n"
           "Tech Stack: Flutter, Dart, GetX, Dio, Firebase Cloud Messaging, GetStorage, SharedPreferences, Google Maps, Google Geocoding API, REST APIs\n"
@@ -86,266 +94,136 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final width = constraints.maxWidth;
-
-        final isMobile = width < 700;
-        final isTablet = width >= 700 && width < 1000;
-        final isDesktop = width >= 1000 && width < 1400;
-        final isLargeDesktop = width >= 1400;
-
-        double viewportFraction;
-        double aspectRatio;
-
-        if (isLargeDesktop) {
-          viewportFraction = 0.60;
-          aspectRatio = 16 / 6.2;
-        } else if (isDesktop) {
-          viewportFraction = 0.70;
-          aspectRatio = 16 / 7.0;
-        } else if (isTablet) {
-          viewportFraction = 0.85;
-          aspectRatio = 16 / 8.8;
-        } else {
-          viewportFraction = 0.95;
-          aspectRatio = 16 / 13.5; // taller on mobile so text fits better
-        }
-
-        final titleSize = isMobile
-            ? 18.0
-            : isTablet
-            ? 22.0
-            : 26.0;
-
-        final descSize = isMobile
-            ? 11.5
-            : isTablet
-            ? 12.8
-            : 14.0;
-
-        final sectionTitleSize = isMobile ? 12.0 : 14.0;
-        final sectionHeadingSize = isMobile ? 26.0 : 40.0;
-
-        return Column(
-          children: [
-            Text(
-              "PROJECTS",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                fontSize: sectionTitleSize,
-                letterSpacing: 3,
-                color: Colors.grey,
-                fontWeight: FontWeight.w600,
-              ),
+    return LayoutBuilder(builder: (context, constraints) {
+      final compact = constraints.maxWidth < 640;
+      final reducedMotion = MediaQuery.disableAnimationsOf(context);
+      final viewportFraction = compact ? 0.94 : constraints.maxWidth < 960 ? 0.78 : 0.58;
+      return Container(
+        width: double.infinity,
+        color: const Color(0xFF111111),
+        padding: EdgeInsets.symmetric(vertical: compact ? 64 : 100),
+        child: Column(children: [
+          Text('SELECTED WORK', style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontWeight: FontWeight.w700, letterSpacing: 3, fontSize: 12)),
+          const SizedBox(height: 10),
+          Text('Projects with purpose.', textAlign: TextAlign.center, style: GoogleFonts.poppins(color: Colors.white, fontSize: compact ? 28 : 46, fontWeight: FontWeight.w700)),
+          const SizedBox(height: 8),
+          Text('Explore the work behind the screens.', style: GoogleFonts.poppins(color: Colors.white70, fontSize: 14)),
+          const SizedBox(height: 32),
+          MouseRegion(
+            onEnter: (_) => _setAutoPlayPaused(true),
+            onExit: (_) => _setAutoPlayPaused(false),
+            child: CarouselSlider.builder(
+            carouselController: _carouselController,
+            itemCount: _projects.length,
+            options: CarouselOptions(
+              height: compact ? 420 : 420,
+              viewportFraction: viewportFraction,
+              enlargeCenterPage: !reducedMotion,
+              enlargeStrategy: CenterPageEnlargeStrategy.scale,
+              enableInfiniteScroll: true,
+              autoPlay: !reducedMotion && !_pauseAutoPlay,
+              autoPlayInterval: const Duration(seconds: 8),
+              autoPlayAnimationDuration: const Duration(milliseconds: 650),
+              autoPlayCurve: Curves.easeInOutCubic,
+              pauseAutoPlayOnTouch: true,
+              pauseAutoPlayOnManualNavigate: true,
+              onPageChanged: (index, _) => setState(() => _currentIndex = index),
             ),
-            const SizedBox(height: 11),
-            Text(
-              "Featured Work & Case Studies",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                fontSize: sectionHeadingSize,
-                fontWeight: FontWeight.w700,
-                color: const Color(0xFFc9a400),
-              ),
-            ),
-            const SizedBox(height: 30),
-
-            CarouselSlider.builder(
-              carouselController: _carouselController,
-              itemCount: _projects.length,
-              options: CarouselOptions(
-                aspectRatio: aspectRatio,
-                viewportFraction: viewportFraction,
-                enlargeCenterPage: true,
-                enlargeStrategy: CenterPageEnlargeStrategy.scale,
-                autoPlay: true,
-                autoPlayInterval: const Duration(seconds: 4),
-                autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                autoPlayCurve: Curves.easeInOut,
-                enableInfiniteScroll: true,
-                clipBehavior: Clip.none,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
-              itemBuilder: (context, index, realIndex) {
-                return AnimatedOpacity(
-                  duration: const Duration(milliseconds: 300),
-                  opacity: _currentIndex == index ? 1 : 0.7,
-                  child: _projectCard(
-                    title: _projects[index]["title"]!,
-                    description: _projects[index]["description"]!,
-                    isMobile: isMobile,
-                    isTablet: isTablet,
-                    titleFontSize: titleSize,
-                    descriptionFontSize: descSize,
+            itemBuilder: (context, index, _) {
+              final project = _projects[index];
+              final description = project['description']!;
+              final summary = description.split('\n').first;
+              return Semantics(
+                label: 'Project ${index + 1} of ${_projects.length}: ${project['title']}',
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  padding: EdgeInsets.all(compact ? 22 : 30),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF222225),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: index == _currentIndex ? const Color(0xFFFBD214) : Colors.white24),
                   ),
-                );
-              },
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    Text('${(index + 1).toString().padLeft(2, '0')} / ${_projects.length.toString().padLeft(2, '0')}', style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontWeight: FontWeight.w700, letterSpacing: 2)),
+                    const SizedBox(height: 18),
+                    Text(project['title']!, maxLines: 3, overflow: TextOverflow.ellipsis, style: GoogleFonts.poppins(color: Colors.white, fontSize: compact ? 20 : 26, height: 1.2, fontWeight: FontWeight.w700)),
+                    const SizedBox(height: 14),
+                    Expanded(child: Text(summary, maxLines: compact ? 5 : 4, overflow: TextOverflow.ellipsis, style: GoogleFonts.poppins(color: Colors.white70, fontSize: 14, height: 1.6))),
+                    if (project['appStoreUrl'] != null) ...[
+                      _storeLinks(project),
+                      const SizedBox(height: 4),
+                    ],
+                    TextButton.icon(
+                      onPressed: () => _showProject(context, project),
+                      iconAlignment: IconAlignment.end,
+                      icon: const Icon(Icons.arrow_forward, size: 18),
+                      label: const Text('Read case study'),
+                      style: TextButton.styleFrom(foregroundColor: const Color(0xFFFBD214), minimumSize: const Size(0, 48)),
+                    ),
+                  ]),
+                ),
+              );
+            },
             ),
+          ),
+          const SizedBox(height: 16),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            IconButton(tooltip: 'Previous project', onPressed: () => _carouselController.previousPage(), color: const Color(0xFFFBD214), icon: const Icon(Icons.arrow_back)),
+            const SizedBox(width: 12),
+            Text('${_currentIndex + 1} / ${_projects.length}', style: GoogleFonts.poppins(color: Colors.white70)),
+            const SizedBox(width: 12),
+            IconButton(tooltip: 'Next project', onPressed: () => _carouselController.nextPage(), color: const Color(0xFFFBD214), icon: const Icon(Icons.arrow_forward)),
+          ]),
+        ]),
+      );
+    });
+  }
 
-            const SizedBox(height: 20),
-
-            AnimatedSmoothIndicator(
-              activeIndex: _currentIndex,
-              count: _projects.length,
-              effect: const ExpandingDotsEffect(
-                activeDotColor: Color(0xFFfbd214),
-                dotColor: Color(0xFFDDDDDD),
-                dotHeight: 10,
-                dotWidth: 10,
-                expansionFactor: 3,
-              ),
-            ),
-          ],
-        );
-      },
+  Widget _storeLinks(Map<String, String> project) {
+    return Wrap(
+      spacing: 12,
+      runSpacing: 4,
+      children: [
+        TextButton.icon(
+          onPressed: () => project_links.openProjectLink(project['appStoreUrl']!),
+          icon: const Icon(Icons.open_in_new, size: 16),
+          label: const Text('App Store'),
+          style: TextButton.styleFrom(foregroundColor: const Color(0xFFFBD214), minimumSize: const Size(0, 44)),
+        ),
+        TextButton.icon(
+          onPressed: () => project_links.openProjectLink(project['playStoreUrl']!),
+          icon: const Icon(Icons.open_in_new, size: 16),
+          label: const Text('Google Play'),
+          style: TextButton.styleFrom(foregroundColor: const Color(0xFFFBD214), minimumSize: const Size(0, 44)),
+        ),
+      ],
     );
   }
 
-  Widget _projectCard({
-    required String title,
-    required String description,
-    required bool isMobile,
-    required bool isTablet,
-    required double titleFontSize,
-    required double descriptionFontSize,
-  }) {
-    final horizontalPadding = isMobile
-        ? 18.0
-        : isTablet
-        ? 28.0
-        : 40.0;
-
-    final verticalPadding = isMobile
-        ? 22.0
-        : isTablet
-        ? 32.0
-        : 45.0;
-
-    final titleBottomSpacing = isMobile ? 14.0 : 28.0;
-    final dividerTopSpacing = isMobile ? 18.0 : 30.0;
-
-    final cardRadius = isMobile ? 24.0 : 32.0;
-    final stripWidth = isMobile ? 5.0 : 6.0;
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 600),
-      margin: EdgeInsets.symmetric(
-        horizontal: isMobile ? 8 : 12,
-        vertical: isMobile ? 8 : 12,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(cardRadius),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFfbd214).withOpacity(0.22),
-            blurRadius: isMobile ? 35 : 60,
-            offset: const Offset(0, 25),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(cardRadius),
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color(0xFF1C1C1E),
-                Color(0xFF2A2A2D),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: 0,
-                top: 0,
-                bottom: 0,
-                child: Container(
-                  width: stripWidth,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0xFFfbd214),
-                        Color(0xFFFFA500),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: horizontalPadding,
-                  vertical: verticalPadding,
-                ),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TweenAnimationBuilder<double>(
-                        tween: Tween<double>(begin: 20, end: 0),
-                        duration: const Duration(milliseconds: 600),
-                        builder: (context, value, child) {
-                          return Transform.translate(
-                            offset: Offset(0, value),
-                            child: Opacity(
-                              opacity: 1 - (value / 20),
-                              child: child,
-                            ),
-                          );
-                        },
-                        child: Text(
-                          title,
-                          maxLines: isMobile ? 3 : 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
-                            fontSize: titleFontSize,
-                            height: 1.2,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: titleBottomSpacing),
-                      Text(
-                        description,
-                        style: GoogleFonts.poppins(
-                          fontSize: descriptionFontSize,
-                          height: isMobile ? 1.45 : 1.7,
-                          color: Colors.grey.shade300,
-                        ),
-                      ),
-                      SizedBox(height: dividerTopSpacing),
-                      Container(
-                        height: 2,
-                        width: isMobile ? 60 : 80,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0xFFfbd214),
-                              Colors.orangeAccent,
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+  Future<void> _showProject(BuildContext context, Map<String, String> project) async {
+    _setAutoPlayPaused(true);
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: const Color(0xFF1C1C1E),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      builder: (context) => SafeArea(
+        child: FractionallySizedBox(
+          heightFactor: 0.85,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Align(alignment: Alignment.centerRight, child: IconButton(tooltip: 'Close case study', onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close, color: Colors.white))),
+              Text(project['title']!, style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontSize: 24, fontWeight: FontWeight.w700)),
+              const SizedBox(height: 20),
+              Expanded(child: SingleChildScrollView(child: SelectableText(project['description']!, style: GoogleFonts.poppins(color: Colors.white, height: 1.7, fontSize: 15)))),
+              if (project['appStoreUrl'] != null) _storeLinks(project),
+            ]),
           ),
         ),
       ),
     );
+    if (mounted) _setAutoPlayPaused(false);
   }
 }

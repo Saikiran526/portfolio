@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:html' as html;
+import 'resume_download_stub.dart' if (dart.library.js_interop) 'resume_download_web.dart' as resume;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,7 @@ class HomeViewmodel extends ChangeNotifier {
   bool _isFloatingNavbarVisible = true;
 
   Timer? _navbarIdleTimer;
+  final ValueNotifier<bool> isHeroVisible = ValueNotifier<bool>(true);
 
   /// Section navigation
   final ScrollController scrollController = ScrollController();
@@ -68,6 +69,7 @@ class HomeViewmodel extends ChangeNotifier {
     _navbarIdleTimer?.cancel();
     scrollController.removeListener(_onScroll);
     scrollController.dispose();
+    isHeroVisible.dispose();
 
     nameController.dispose();
     emailController.dispose();
@@ -88,6 +90,8 @@ class HomeViewmodel extends ChangeNotifier {
     _updateActiveSection();
 
     final offset = scrollController.offset;
+    final heroVisible = offset < 700;
+    if (isHeroVisible.value != heroVisible) isHeroVisible.value = heroVisible;
 
     // Always show navbar at the very top.
     if (offset <= 0) {
@@ -182,33 +186,27 @@ class HomeViewmodel extends ChangeNotifier {
     final url =
         'https://drive.google.com/uc?export=download&id=${AppConstants.fileId}';
 
-    final anchor = html.AnchorElement(href: url)
-      ..setAttribute('download', 'Saikiran_Resume.pdf');
-
-    html.document.body?.append(anchor);
-    anchor.click();
-    anchor.remove();
+    await resume.downloadResume(url);
   }
 
   Future<bool> sendMessage() async {
-    final response = await http.post(
-      Uri.parse('https://api.web3forms.com/submit'),
-      body: {
-        'access_key': '3fc8bafe-2bdd-4ba4-a904-4a401a66fbe9',
-        'name': nameController.text,
-        'email': emailController.text,
-        'message': messageController.text,
-      },
-    );
-
-    if (response.statusCode == 200) {
+    try {
+      final response = await http.post(
+        Uri.parse('https://api.web3forms.com/submit'),
+        body: {
+          'access_key': '3fc8bafe-2bdd-4ba4-a904-4a401a66fbe9',
+          'name': nameController.text.trim(),
+          'email': emailController.text.trim(),
+          'message': messageController.text.trim(),
+        },
+      ).timeout(const Duration(seconds: 12));
+      if (response.statusCode != 200) return false;
       nameController.clear();
       emailController.clear();
       messageController.clear();
       return true;
+    } catch (_) {
+      return false;
     }
-
-    print('Response : ${response.body}');
-    return false;
   }
 }
