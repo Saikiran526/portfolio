@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'project_link_stub.dart' if (dart.library.js_interop) 'project_link_web.dart' as project_links;
+import 'project_link_stub.dart'
+    if (dart.library.js_interop) 'project_link_web.dart'
+    as project_links;
 
 class ProjectsCarousel extends StatefulWidget {
   const ProjectsCarousel({super.key});
@@ -12,7 +14,7 @@ class ProjectsCarousel extends StatefulWidget {
 
 class _ProjectsCarouselState extends State<ProjectsCarousel> {
   final CarouselSliderController _carouselController =
-  CarouselSliderController();
+      CarouselSliderController();
 
   int _currentIndex = 0;
   bool _pauseAutoPlay = false;
@@ -24,10 +26,31 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
 
   final List<Map<String, String>> _projects = [
     {
+      "title":
+          "Healthcare Service Platform – Healthcare Operations Mobile Application",
+      "date": "Oct 2026 – Present",
+      "description":
+          "Healthcare operations mobile application designed to support professional workflows, appointment management, patient coordination, real-time consultations, notifications, and financial tracking.\n\n"
+          "Tech Stack: Flutter, Dart, Provider, Dio, GoRouter, Firebase Cloud Messaging, Agora RTC, Secure Storage, REST APIs\n"
+          "Architecture: MVVM\n"
+          "Status: Ongoing Development\n\n"
+          "• Implemented MVVM-based state management using Provider to separate UI, business logic, and data operations.\n"
+          "• Integrated RESTful APIs using Dio with centralized API configuration, authentication headers, request handling, response parsing, and error management.\n"
+          "• Implemented repository-based data access to keep backend communication separate from UI and view model logic.\n"
+          "• Implemented multi-flavor configuration for development, staging, and production environments with separate application identifiers and Firebase configurations.\n"
+          "• Integrated Firebase Cloud Messaging for foreground, background, and terminated-state push notification handling.\n"
+          "• Integrated Agora RTC for real-time doctor–patient video consultations, including token-based authentication, channel joining, local preview, remote participant handling, microphone and camera controls, camera switching, speaker control, token renewal, and call cleanup.\n"
+          "• Developed appointment management workflows for upcoming, accepted, confirmed, ongoing, completed, and cancelled appointments.\n"
+          "• Implemented secure local storage for authentication sessions, refresh tokens, and device-specific notification information.\n"
+          "• Implemented device timezone detection using IANA timezone identifiers such as Asia/Kolkata and sent the timezone to the backend for availability-related workflows.\n"
+          "• Integrated cached network images for doctor, patient, and profile images with loading and fallback states.\n"
+          "• Structured the application for maintainability, scalability, environment-based deployment, and future feature expansion.",
+    },
+    {
       "title": "Annadatha – Agricultural Services Mobile Application",
       "date": "Jul 2026 – Present",
       "description":
-      "Mobile application focused on providing digital services for farmers, including agricultural product purchasing and equipment rental workflows.\n\n"
+          "Mobile application focused on providing digital services for farmers, including agricultural product purchasing and equipment rental workflows.\n\n"
           "Tech Stack: Flutter, Dart, BLoC, Dio, GoRouter, OpenStreetMap\n"
           "Status: Ongoing Development\n\n"
           "• Contributing to the development of the Annadatha mobile application from scratch, implementing assigned modules and farmer-focused user workflows.\n"
@@ -41,9 +64,10 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
       "title": "Gazam – Real Estate Mobile Application",
       "date": "Mar 2026 – Sep 2026",
       "appStoreUrl": "https://apps.apple.com/in/app/gazam-in/id6747278647",
-      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.gazam.inapp",
+      "playStoreUrl":
+          "https://play.google.com/store/apps/details?id=com.gazam.inapp",
       "description":
-      "Real-estate mobile application focused on property discovery, search, location-based exploration, and personalized property experiences.\n\n"
+          "Real-estate mobile application focused on property discovery, search, location-based exploration, and personalized property experiences.\n\n"
           "Tech Stack: Flutter, Dart, GetX, Dio, Firebase Cloud Messaging, GetStorage, SharedPreferences, Google Maps, Google Geocoding API, REST APIs\n"
           "Architecture: MVC\n\n"
           "• Developed and maintained multiple modules of the Gazam real-estate mobile application using Flutter and Dart.\n"
@@ -60,7 +84,7 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
     {
       "title": "TGNPDCL Employee App – Dashboard Module",
       "description":
-      "Enterprise mobile dashboard module providing real-time operational insights to employees.\n\n"
+          "Enterprise mobile dashboard module providing real-time operational insights to employees.\n\n"
           "Tech Stack: Flutter, Dart, Provider, Dio, REST APIs, Sqflite, fl_chart\n"
           "Scale: 58+ screens, 80+ API integrations\n"
           "Architecture: Clean Architecture, MVVM\n\n"
@@ -73,7 +97,7 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
     {
       "title": "Tailors Town – Tailor Application",
       "description":
-      "Tailor-focused mobile application for managing orders, customers, and tailoring workflows as part of a dual-app platform.\n\n"
+          "Tailor-focused mobile application for managing orders, customers, and tailoring workflows as part of a dual-app platform.\n\n"
           "Tech Stack: Flutter, Dart, Provider, Dio, Firebase Crashlytics, REST APIs, Lottie\n"
           "Architecture: Clean Architecture, MVVM\n\n"
           "• Developed the tailor-side application from scratch, owning the complete application flow from initialization to production-ready features.\n"
@@ -86,7 +110,7 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
     {
       "title": "Chaarvi Grow – Plant Disease Detection Application",
       "description":
-      "Mobile application that detects plant diseases using image analysis via backend services.\n\n"
+          "Mobile application that detects plant diseases using image analysis via backend services.\n\n"
           "Tech Stack: Flutter, Dart, Firebase Authentication, Dio, REST APIs\n\n"
           "• Implemented the end-to-end authentication flow, including application launch logic, login, and navigation to the authenticated home screen.\n"
           "• Integrated image capture and image upload workflows using backend APIs for plant disease analysis.\n"
@@ -96,94 +120,189 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      final compact = constraints.maxWidth < 640;
-      final reducedMotion = MediaQuery.disableAnimationsOf(context);
-      final viewportFraction = compact ? 0.94 : constraints.maxWidth < 960 ? 0.78 : 0.58;
-      return Container(
-        width: double.infinity,
-        color: const Color(0xFF111111),
-        padding: EdgeInsets.symmetric(vertical: compact ? 50 : 100),
-        child: Column(children: [
-          Text('SELECTED WORK', style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontWeight: FontWeight.w700, letterSpacing: 3, fontSize: 12)),
-          const SizedBox(height: 10),
-          Text('Projects with purpose.', textAlign: TextAlign.center, style: GoogleFonts.poppins(color: Colors.white, fontSize: compact ? 28 : 46, fontWeight: FontWeight.w700)),
-          const SizedBox(height: 8),
-          Text('Explore the work behind the screens.', style: GoogleFonts.poppins(color: Colors.white70, fontSize: 14)),
-          const SizedBox(height: 32),
-          MouseRegion(
-            onEnter: (_) => _setAutoPlayPaused(true),
-            onExit: (_) => _setAutoPlayPaused(false),
-            child: CarouselSlider.builder(
-            carouselController: _carouselController,
-            itemCount: _projects.length,
-            options: CarouselOptions(
-              height: compact ? 448 : 420,
-              viewportFraction: viewportFraction,
-              enlargeCenterPage: !reducedMotion,
-              enlargeStrategy: CenterPageEnlargeStrategy.scale,
-              enableInfiniteScroll: true,
-              autoPlay: !reducedMotion && !_pauseAutoPlay,
-              autoPlayInterval: const Duration(seconds: 8),
-              autoPlayAnimationDuration: const Duration(milliseconds: 650),
-              autoPlayCurve: Curves.easeInOutCubic,
-              pauseAutoPlayOnTouch: true,
-              pauseAutoPlayOnManualNavigate: true,
-              onPageChanged: (index, _) => setState(() => _currentIndex = index),
-            ),
-            itemBuilder: (context, index, _) {
-              final project = _projects[index];
-              final description = project['description']!;
-              final summary = description.split('\n').first;
-              return Semantics(
-                label: 'Project ${index + 1} of ${_projects.length}: ${project['title']}',
-                child: Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                  padding: EdgeInsets.all(compact ? 18 : 30),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF222225),
-                    borderRadius: BorderRadius.circular(24),
-                    border: Border.all(color: index == _currentIndex ? const Color(0xFFFBD214) : Colors.white24),
-                  ),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text('${(index + 1).toString().padLeft(2, '0')} / ${_projects.length.toString().padLeft(2, '0')}', style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontWeight: FontWeight.w700, letterSpacing: 2)),
-                    SizedBox(height: compact ? 14 : 18),
-                    Text(project['title']!, maxLines: 3, overflow: TextOverflow.ellipsis, style: GoogleFonts.poppins(color: Colors.white, fontSize: compact ? 20 : 26, height: 1.2, fontWeight: FontWeight.w700)),
-                    if (project['date'] != null) ...[
-                      const SizedBox(height: 6),
-                      Text(project['date']!, style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontSize: 13, fontWeight: FontWeight.w600)),
-                    ],
-                    const SizedBox(height: 14),
-                    Expanded(child: Text(summary, maxLines: compact ? 5 : 4, overflow: TextOverflow.ellipsis, style: GoogleFonts.poppins(color: Colors.white70, fontSize: 14, height: 1.6))),
-                    if (project['appStoreUrl'] != null) ...[
-                      _storeLinks(project),
-                      const SizedBox(height: 4),
-                    ],
-                    TextButton.icon(
-                      onPressed: () => _showProject(context, project),
-                      iconAlignment: IconAlignment.end,
-                      icon: const Icon(Icons.arrow_forward, size: 18),
-                      label: const Text('Read case study'),
-                      style: TextButton.styleFrom(foregroundColor: const Color(0xFFFBD214), minimumSize: const Size(0, 48)),
-                    ),
-                  ]),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final compact = constraints.maxWidth < 640;
+        final reducedMotion = MediaQuery.disableAnimationsOf(context);
+        final viewportFraction = compact
+            ? 0.94
+            : constraints.maxWidth < 960
+            ? 0.78
+            : 0.58;
+        return Container(
+          width: double.infinity,
+          color: const Color(0xFF111111),
+          padding: EdgeInsets.symmetric(vertical: compact ? 50 : 100),
+          child: Column(
+            children: [
+              Text(
+                'SELECTED WORK',
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFFFBD214),
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 3,
+                  fontSize: 12,
                 ),
-              );
-            },
-            ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                'Projects with purpose.',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontSize: compact ? 28 : 46,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'Explore the work behind the screens.',
+                style: GoogleFonts.poppins(color: Colors.white70, fontSize: 14),
+              ),
+              const SizedBox(height: 32),
+              MouseRegion(
+                onEnter: (_) => _setAutoPlayPaused(true),
+                onExit: (_) => _setAutoPlayPaused(false),
+                child: CarouselSlider.builder(
+                  carouselController: _carouselController,
+                  itemCount: _projects.length,
+                  options: CarouselOptions(
+                    height: compact ? 448 : 420,
+                    viewportFraction: viewportFraction,
+                    enlargeCenterPage: !reducedMotion,
+                    enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                    enableInfiniteScroll: true,
+                    autoPlay: !reducedMotion && !_pauseAutoPlay,
+                    autoPlayInterval: const Duration(seconds: 8),
+                    autoPlayAnimationDuration: const Duration(
+                      milliseconds: 650,
+                    ),
+                    autoPlayCurve: Curves.easeInOutCubic,
+                    pauseAutoPlayOnTouch: true,
+                    pauseAutoPlayOnManualNavigate: true,
+                    onPageChanged: (index, _) =>
+                        setState(() => _currentIndex = index),
+                  ),
+                  itemBuilder: (context, index, _) {
+                    final project = _projects[index];
+                    final description = project['description']!;
+                    final summary = description.split('\n').first;
+                    return Semantics(
+                      label:
+                          'Project ${index + 1} of ${_projects.length}: ${project['title']}',
+                      child: Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 12,
+                        ),
+                        padding: EdgeInsets.all(compact ? 18 : 30),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF222225),
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: index == _currentIndex
+                                ? const Color(0xFFFBD214)
+                                : Colors.white24,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${(index + 1).toString().padLeft(2, '0')} / ${_projects.length.toString().padLeft(2, '0')}',
+                              style: GoogleFonts.poppins(
+                                color: const Color(0xFFFBD214),
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 2,
+                              ),
+                            ),
+                            SizedBox(height: compact ? 14 : 18),
+                            Text(
+                              project['title']!,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: compact ? 20 : 26,
+                                height: 1.2,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            if (project['date'] != null) ...[
+                              const SizedBox(height: 6),
+                              Text(
+                                project['date']!,
+                                style: GoogleFonts.poppins(
+                                  color: const Color(0xFFFBD214),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                            const SizedBox(height: 14),
+                            Expanded(
+                              child: Text(
+                                summary,
+                                maxLines: compact ? 5 : 4,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white70,
+                                  fontSize: 14,
+                                  height: 1.6,
+                                ),
+                              ),
+                            ),
+                            if (project['appStoreUrl'] != null) ...[
+                              _storeLinks(project),
+                              const SizedBox(height: 4),
+                            ],
+                            TextButton.icon(
+                              onPressed: () => _showProject(context, project),
+                              iconAlignment: IconAlignment.end,
+                              icon: const Icon(Icons.arrow_forward, size: 18),
+                              label: const Text('Read case study'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: const Color(0xFFFBD214),
+                                minimumSize: const Size(0, 48),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    tooltip: 'Previous project',
+                    onPressed: () => _carouselController.previousPage(),
+                    color: const Color(0xFFFBD214),
+                    icon: const Icon(Icons.arrow_back),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    '${_currentIndex + 1} / ${_projects.length}',
+                    style: GoogleFonts.poppins(color: Colors.white70),
+                  ),
+                  const SizedBox(width: 12),
+                  IconButton(
+                    tooltip: 'Next project',
+                    onPressed: () => _carouselController.nextPage(),
+                    color: const Color(0xFFFBD214),
+                    icon: const Icon(Icons.arrow_forward),
+                  ),
+                ],
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            IconButton(tooltip: 'Previous project', onPressed: () => _carouselController.previousPage(), color: const Color(0xFFFBD214), icon: const Icon(Icons.arrow_back)),
-            const SizedBox(width: 12),
-            Text('${_currentIndex + 1} / ${_projects.length}', style: GoogleFonts.poppins(color: Colors.white70)),
-            const SizedBox(width: 12),
-            IconButton(tooltip: 'Next project', onPressed: () => _carouselController.nextPage(), color: const Color(0xFFFBD214), icon: const Icon(Icons.arrow_forward)),
-          ]),
-        ]),
-      );
-    });
+        );
+      },
+    );
   }
 
   Widget _storeLinks(Map<String, String> project) {
@@ -192,44 +311,92 @@ class _ProjectsCarouselState extends State<ProjectsCarousel> {
       runSpacing: 4,
       children: [
         TextButton.icon(
-          onPressed: () => project_links.openProjectLink(project['appStoreUrl']!),
+          onPressed: () =>
+              project_links.openProjectLink(project['appStoreUrl']!),
           icon: const Icon(Icons.open_in_new, size: 16),
           label: const Text('App Store'),
-          style: TextButton.styleFrom(foregroundColor: const Color(0xFFFBD214), minimumSize: const Size(0, 44)),
+          style: TextButton.styleFrom(
+            foregroundColor: const Color(0xFFFBD214),
+            minimumSize: const Size(0, 44),
+          ),
         ),
         TextButton.icon(
-          onPressed: () => project_links.openProjectLink(project['playStoreUrl']!),
+          onPressed: () =>
+              project_links.openProjectLink(project['playStoreUrl']!),
           icon: const Icon(Icons.open_in_new, size: 16),
           label: const Text('Google Play'),
-          style: TextButton.styleFrom(foregroundColor: const Color(0xFFFBD214), minimumSize: const Size(0, 44)),
+          style: TextButton.styleFrom(
+            foregroundColor: const Color(0xFFFBD214),
+            minimumSize: const Size(0, 44),
+          ),
         ),
       ],
     );
   }
 
-  Future<void> _showProject(BuildContext context, Map<String, String> project) async {
+  Future<void> _showProject(
+    BuildContext context,
+    Map<String, String> project,
+  ) async {
     _setAutoPlayPaused(true);
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: const Color(0xFF1C1C1E),
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       builder: (context) => SafeArea(
         child: FractionallySizedBox(
           heightFactor: 0.85,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Align(alignment: Alignment.centerRight, child: IconButton(tooltip: 'Close case study', onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close, color: Colors.white))),
-              Text(project['title']!, style: GoogleFonts.poppins(color: const Color(0xFFFBD214), fontSize: 24, fontWeight: FontWeight.w700)),
-              if (project['date'] != null) ...[
-                const SizedBox(height: 8),
-                Text(project['date']!, style: GoogleFonts.poppins(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.w600)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                    tooltip: 'Close case study',
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.close, color: Colors.white),
+                  ),
+                ),
+                Text(
+                  project['title']!,
+                  style: GoogleFonts.poppins(
+                    color: const Color(0xFFFBD214),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                if (project['date'] != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    project['date']!,
+                    style: GoogleFonts.poppins(
+                      color: Colors.white70,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: SelectableText(
+                      project['description']!,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        height: 1.7,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+                if (project['appStoreUrl'] != null) _storeLinks(project),
               ],
-              const SizedBox(height: 20),
-              Expanded(child: SingleChildScrollView(child: SelectableText(project['description']!, style: GoogleFonts.poppins(color: Colors.white, height: 1.7, fontSize: 15)))),
-              if (project['appStoreUrl'] != null) _storeLinks(project),
-            ]),
+            ),
           ),
         ),
       ),

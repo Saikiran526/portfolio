@@ -203,6 +203,7 @@ class _ExperienceCard extends StatelessWidget {
     "Worked with Provider, BLoC, and GetX state management patterns across different application codebases based on project requirements.",
     "Applied MVVM, Clean Architecture, and MVC patterns to build scalable, modular, and maintainable Flutter applications.",
     "Integrated RESTful APIs using Dio with interceptors, token-based authentication, multipart requests, and structured backend data handling.",
+    "Integrated the Agora RTC SDK for real-time doctor–patient video consultations, including token-based authentication, channel joining, local and remote video handling, microphone and camera controls, token renewal, and call cleanup.",
     "Implemented Firebase Cloud Messaging push notifications, handling foreground, background, and terminated-state notification delivery, along with notification-based in-app navigation and deep linking.",
     "Implemented local data persistence and caching using Sqflite, SharedPreferences, and GetStorage to improve application responsiveness and reduce redundant network requests.",
     "Integrated Firebase Authentication and Firebase Crashlytics to implement secure authentication flows and monitor production application stability.",

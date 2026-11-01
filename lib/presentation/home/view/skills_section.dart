@@ -5,21 +5,13 @@ class _SkillsSection extends StatelessWidget {
   final GlobalKey sectionKey;
 
   static const _skills = [
-    _SkillItem(
-      "Programming Languages",
-      "Dart, Java",
-      Icons.code,
-    ),
+    _SkillItem("Programming Languages", "Dart, Java", Icons.code),
     _SkillItem(
       "Frameworks & SDKs",
-      "Flutter",
+      "Flutter, Agora RTC SDK",
       Icons.phone_android,
     ),
-    _SkillItem(
-      "State Management",
-      "Provider, BLoC, GetX",
-      Icons.sync_alt,
-    ),
+    _SkillItem("State Management", "Provider, BLoC, GetX", Icons.sync_alt),
     _SkillItem(
       "Architecture",
       "MVVM, Clean Architecture, MVC",
@@ -45,11 +37,7 @@ class _SkillsSection extends StatelessWidget {
       "SQLite (Sqflite), SharedPreferences, GetStorage",
       Icons.storage,
     ),
-    _SkillItem(
-      "Navigation",
-      "GoRouter, Named Routes",
-      Icons.navigation,
-    ),
+    _SkillItem("Navigation", "GoRouter, Named Routes", Icons.navigation),
     _SkillItem(
       "Maps & Location",
       "Google Maps, Google Geocoding API, OpenStreetMap",
@@ -66,10 +54,11 @@ class _SkillsSection extends StatelessWidget {
       Icons.animation,
     ),
     _SkillItem(
-      "Version Control",
-      "Git",
-      Icons.merge_type,
+      "Real-Time Communication",
+      "Agora RTC, Video Calling, Voice Calling",
+      Icons.video_call,
     ),
+    _SkillItem("Version Control", "Git and Github", Icons.merge_type),
     _SkillItem(
       "Tools & Platforms",
       "Postman, Android Studio, VS Code",
@@ -77,11 +66,8 @@ class _SkillsSection extends StatelessWidget {
     ),
   ];
 
-
-
   @override
   Widget build(BuildContext context) {
-
     final isMobile = context.isMobile;
     final width = MediaQuery.sizeOf(context).width;
     final crossAxisCount = width < 600
@@ -97,41 +83,55 @@ class _SkillsSection extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.symmetric(
         vertical: 60,
-        horizontal: isMobile ? 20 : context.isTablet ? 32 : 60,
+        horizontal: isMobile
+            ? 20
+            : context.isTablet
+            ? 32
+            : 60,
       ),
       child: Column(
         children: [
           Text(
-            "SKILLS",
-            style: GoogleFonts.poppins(
-              fontSize: 14,
-              letterSpacing: 3,
-              color: Colors.grey,
-              fontWeight: FontWeight.w600,
-            ),
-          ).animate(value: context.reduceMotion ? 1 : null, autoPlay: !context.reduceMotion).fadeIn(duration: 600.ms),
+                "SKILLS",
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  letterSpacing: 3,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.w600,
+                ),
+              )
+              .animate(
+                value: context.reduceMotion ? 1 : null,
+                autoPlay: !context.reduceMotion,
+              )
+              .fadeIn(duration: 600.ms),
           const SizedBox(height: 11),
           Text(
-            "Technical Expertise & Tools",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              fontSize: isMobile ? 26 : 40,
-              fontWeight: FontWeight.w700,
-              color: PortfolioColors.primaryDark,
-            ),
-          ).animate(value: context.reduceMotion ? 1 : null, autoPlay: !context.reduceMotion, delay: 200.ms).fadeIn(duration: 800.ms),
+                "Technical Expertise & Tools",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: isMobile ? 26 : 40,
+                  fontWeight: FontWeight.w700,
+                  color: PortfolioColors.primaryDark,
+                ),
+              )
+              .animate(
+                value: context.reduceMotion ? 1 : null,
+                autoPlay: !context.reduceMotion,
+                delay: 200.ms,
+              )
+              .fadeIn(duration: 800.ms),
           const SizedBox(height: 40),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
 
-
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: crossAxisCount,
-      mainAxisSpacing: 20,
-      crossAxisSpacing: 20,
-      mainAxisExtent: width < Breakpoints.mobile ? 174 : 146,
-    ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 20,
+              mainAxisExtent: width < Breakpoints.mobile ? 174 : 146,
+            ),
             itemCount: _skills.length,
             itemBuilder: (_, i) => _SkillCard(skill: _skills[i]),
           ),
@@ -142,4 +142,3 @@ class _SkillsSection extends StatelessWidget {
 }
 
 // ── Experience ────────────────────────────────────────────────────────────────
-
